@@ -13,7 +13,9 @@ def index(request):
     # TODO: link to Google Maps API so we have a visual of these places
     context = {
         'housing': housing,
-        'google_api_key': settings.GOOGLE_API_KEY
+        'google_api_key': settings.GOOGLE_API_KEY,
+        'lat_0': 53.55511,
+        'lon_0' : -113.48496
     }
 
     # send request to the index page with the housing data passed in
