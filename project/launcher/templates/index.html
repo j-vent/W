@@ -1,6 +1,6 @@
 {% load static %}
 {% block page_content %}
-<h1>Housing Project</h1>
+<h1>!Housing Project!!</h1>
 <div class="row">
     {% for house in housing %}
     <div class="col-md-4">
@@ -13,4 +13,14 @@
     </div>
     {% endfor %}
 </div>
+
+<body>
+    <h2>MAP:</h2>
+    <div id="map-route" style="width: 500px; height: 500px;"></div>
+</body>
+
+ <script type="text/javascript">
+    var google_api_key = "{{google_api_key|safe}}";
+  </script>
+   <script src="{% static 'google_maps.js' %}"></script>
 {% endblock %}

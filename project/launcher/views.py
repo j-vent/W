@@ -1,5 +1,7 @@
 from django.shortcuts import render
 from launcher.models import Housing
+from django.conf import settings
+
 # Create your views here.
 
 
@@ -11,6 +13,7 @@ def index(request):
     # TODO: link to Google Maps API so we have a visual of these places
     context = {
         'housing': housing,
+        'google_api_key': settings.GOOGLE_API_KEY
     }
 
     # send request to the index page with the housing data passed in
