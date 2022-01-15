@@ -1,26 +1,44 @@
-{% load static %}
-{% block page_content %}
-<h1>!Housing Project!!</h1>
-<div class="row">
-    {% for house in housing %}
-    <div class="col-md-4">
-        <div class="card mb-2">
-            <div class="card-body">
-                <h5 class="card-title">{{ house.organization }}</h5>
-                <p class="card-text">{{ house.address }}</p>
-            </div>
-        </div>
-    </div>
-    {% endfor %}
-</div>
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Some Warmth</title>
 
-<body>
-    <h2>MAP:</h2>
-    <div id="map-route" style="width: 500px; height: 500px;"></div>
-</body>
+    <style type="text/css">
+      /* Set the size of the div element that contains the map */
+      #map {
+        height: 400px;
+        /* The height is 400 pixels */
+        width: 100%;
+        /* The width is the width of the web page */
+      }
+    </style>
+    <script>
+      // Initialize and add the map
+      function initMap() {
+        // The location of housing
+        const centerYEG = { lat: 53.55019, lng: -113.49134};
+        // The map, centered at housing 
+        const map = new google.maps.Map(document.getElementById("map"), {
+          zoom: 17,
+          center: centerYEG,
+        });
+        // The marker, positioned at housing 
+        const marker = new google.maps.Marker({
+          position: centerYEG,
+          map: map,
+        });
+      }
+    </script>
+  </head>
+  <body>
+    <h3>MAP!!</h3>
+    <!--The div element for the map -->
+    <div id="map"></div>
 
- <script type="text/javascript">
-    var google_api_key = "{{google_api_key|safe}}";
-  </script>
-   <script src="{% static 'google_maps.js' %}"></script>
-{% endblock %}
+    <!-- Async script executes immediately and must be after any DOM elements used in callback. -->
+    <script
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAuAwyUS_LqCs0uSfMIewefuSSllj2fD7A&callback=initMap&libraries=&v=weekly"
+      async
+    ></script>
+  </body>
+</html>

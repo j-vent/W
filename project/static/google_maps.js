@@ -9,10 +9,11 @@ function initMap() {
     var directionsService = new google.maps.DirectionsService;
     var directionsDisplay = new google.maps.DirectionsRenderer;
     var map = new google.maps.Map(document.getElementById('map-route'), {
-        zoom: 8,
-        center: {lat: 53.558928395132305, lng:  -113.49684146004718}
+        zoom: 10,
+        center: {lat: 53.558928395122305, lng:  -113.49684146004718}
     });
     directionsDisplay.setMap(map);
     // calculateAndDisplayRoute(directionsService, directionsDisplay);
 
 }
+
