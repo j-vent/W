@@ -45,39 +45,71 @@
         <section id="scroll">
             <div class="container">
                 <div class="row">
-                    <div class="col-md-3">
+                    <div class="col-md-2">
+                        <br>
                         <!-- filters, https://www.w3schools.com/howto/howto_css_custom_checkbox.asp -->
                         <form action="{% url 'index' %}" method="post">
                             {% csrf_token %}
-                        <label class="container">Food provided
+                                <div class="slidecontainer">
+                                    <label for="distance_frm_my_current_location">maximum distance from current location:</label><br>
+                                    <input type="range" style="height: 5px" name="distance_frm_my_current_location" min="1" max="100" value="50" class="slider" id="myRange", color="#bd85ce">
+                                    <body>
+                                        <div style="position:relative; margin:auto; width:95%">
+                                          <span style="position:relative; color:bd85ce; border:1px solid bd85ce; min-width:100px;">
+                                          <span id="myValue"></span>
+                                          </span>
+                                        </div>
+                                      
+                                        <script type="text/javascript" charset="utf-8">
+                                      var myRange = document.querySelector('#myRange');
+                                      var myValue = document.querySelector('#myValue');
+                                      var myUnits = 'km';
+                                      var off = myRange.offsetWidth / (parseInt(myRange.max) - parseInt(myRange.min));
+                                      var px =  ((myRange.valueAsNumber - parseInt(myRange.min)) * off) - (myValue.offsetParent.offsetWidth / 2);
+                                      
+                                        myValue.parentElement.style.left = px + 'px';
+                                        myValue.parentElement.style.top = myRange.offsetHeight + 'px';
+                                        myValue.innerHTML = myRange.value + ' ' + myUnits;
+                                      
+                                        myRange.oninput =function(){
+                                          let px = ((myRange.valueAsNumber - parseInt(myRange.min)) * off) - (myValue.offsetWidth / 2);
+                                          myValue.innerHTML = myRange.value + ' ' + myUnits;
+                                          myValue.parentElement.style.left = px + 'px';
+                                        };
+                                        </script>
+                                      
+                                      </body>
+                                </div>
                                 <input type="checkbox" name="food_provided" value="1">
-                                <span class="checkmark"></span>
-                            </label>
+                                    <span class="checkmark"></span>
+                                    <label for="food_provided">food provided</label><br>
                             
-                            <label class="container">LGBTQ2S+ friendly
                                 <input type="checkbox" name="lgbtq2s_friendly" value="1">
-                                <span class="checkmark"></span>
-                            </label>
+                                    <span class="checkmark"></span>
+                                    <label for="lgbtq2s_friendly">LGBT2Q2S+ friendly</label><br>
                             
-                            <label class="container">Public transit accessible
                                 <input type="checkbox" name="public_transit_accessible" value="1">
-                                <span class="checkmark"></span>
-                            </label>
-                            
-                            <label class="container">Showers provided
+                                    <span class="checkmark"></span>
+                                    <label for="public_transit_accessible">public transit accessible</label><br>
+                                
                                 <input type="checkbox" name="showers_provided" value="1">
-                                <span class="checkmark"></span>
-                            </label>
-                            <label class="container">Women only
+                                    <span class="checkmark"></span>
+                                    <label for="showers_provided">showers provided</label><br>
+                               
                                 <input type="checkbox" name="women_only" value="1">
-                                <span class="checkmark"></span>
-                            </label>
+                                    <span class="checkmark"></span>
+                                    <label for="women_only">women only</label><br>
+                                
+                                <input type="checkbox" name="wheelchair_accessible" value="1">
+                                    <span class="checkmark"></span>
+                                    <label for="wheelchair_accessible">wheelchair accessible</label><br>
+                                
                             <p><input type="submit" value="find shelters"></p> 
                         </form>
                     </div>
                         
                     <!--map-->    
-                    <div class="col-md-6"> <!-- in Bootstrap, the grids are 12 cols so the map takes up 9 cols -->
+                    <div class="col-md-7"> <!-- in Bootstrap, the grids are 12 cols so the map takes up 9 cols -->
                         <title>Some Warmth</title>
 
                         <style type="text/css">
@@ -151,6 +183,7 @@
                     <!--list of shelters-->
                      <!--list formatting: https://www.artlebedev.com/tools/technogrette/html/line_separated_list/-->
                     <div class="col-md-3">
+                        <br>
                         <style type="text/css">
                             ul.line-separated
                             {
