@@ -19,7 +19,7 @@
         <script src="{% static 'js/start.js' %}"></script> 
 
     </head>
-    <body id="page-top">
+    <body id="page-top" onload="get_user_location()">
         <!-- Navigation-->
         <nav class="navbar navbar-expand-lg navbar-dark navbar-custom fixed-top">
             <div class="container px-5">
@@ -103,7 +103,10 @@
                                 <input type="checkbox" name="wheelchair_accessible" value="1">
                                     <span class="checkmark"></span>
                                     <label for="wheelchair_accessible">wheelchair accessible</label><br>
-                                
+
+                                    <input type="text" name="lat_from_js" id="lat_from_js" hidden>
+                                    <input type="text" name="long_from_js" id="long_from_js" hidden>
+
                             <br><p><input type="submit" value="find shelters"></p> 
                         </form>
                     </div>
@@ -121,7 +124,7 @@
                             /* The width is the width of the web page */
                         }
                         </style>
-
+ 
                     <body>
                         <h3>Shelters</h3>
                         <!--The div element for the map -->
@@ -170,9 +173,11 @@
         /* The width is the width of the web page */
       }
     </style>
+ 
     <script >
       // Initialize and add the map
       function initMap() {
+            
         // The location of center of YEG
         const centerYEG = { lat: 53.54733, lng: -113.48887};
         // The map, centered in YEG
@@ -208,7 +213,36 @@
         console.log("housings** ");
         console.log(housings);
 
+
         // Create the markers.
+
+        if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function(position) {
+            
+            var pos = {
+                lat: position.coords.latitude,
+                lng: position.coords.longitude
+            };
+            console.log("get curr pos", pos)
+            var marker = new google.maps.Marker({
+                position: pos,
+                map: map,
+                icon: "http://maps.google.com/mapfiles/ms/icons/blue-dot.png",
+                title: "You are here"
+            });
+            marker.addListener("click", () => {
+                infoWindow.close();
+                infoWindow.setContent(marker.getTitle());
+                infoWindow.open(marker.getMap(), marker);
+             });
+            map.setCenter(pos);
+        }, function() {
+            //handle location error (i.e. if user disallowed location access manually)
+        });
+        } else {
+        // Browser doesn't support Geolocation
+        }
+
         housings.forEach(([position, title], i) => {
             const marker = new google.maps.Marker({
                 position,
@@ -231,13 +265,39 @@
     </script>
   </head>
   <body>
-
     
     <!-- Async script executes immediately and must be after any DOM elements used in callback. -->
     <script
       src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAuAwyUS_LqCs0uSfMIewefuSSllj2fD7A&callback=initMap&libraries=&v=weekly"
       async
     ></script>
+
+    <!--div element for location -->
+    <div name="location">
+	<p id="location" hidden>Location</p>
+    </div>
+
+    <!--script src="https://code.jquery.com/jquery-3.6.0.js"></script-->
+
+    <script>
+        // Get user location
+	const user_location = document.querySelector("location");
+	const btn = document.querySelector("button");
+	const name = document.getElementById("location");
+
+	function get_user_location() {
+	    if (navigator.geolocation) {
+	        navigator.geolocation.getCurrentPosition(show_user_location);
+	    } else {
+	        name.innerHTML = "Can't get location!!";
+	    }
+        }
+	function show_user_location(position) {
+        document.getElementById("lat_from_js").value = position.coords.latitude;
+        document.getElementById("long_from_js").value = position.coords.longitude;
+	}
+
+    </script>
   </body>
 </html>
 {% endblock %}

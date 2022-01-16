@@ -14,12 +14,18 @@ from django.views.decorators.csrf import csrf_exempt
 def index(request):
     all_shelters = Housing.objects.all()
 
-    # TODO: get actual distance from user
     distance_param = 4
     within_distance_shelters = []
 
     if (request.method == "POST"):
+        # current location
+        orig_lat = request.POST.get("lat_from_js")
+        orig_lon = request.POST.get("long_from_js")
+        print("orig lat ", orig_lat)
+        print("orig lon ", orig_lon)
+
         distance_param = int(request.POST.get("distance_frm_my_current_location"))
+        
         print("distance param ", distance_param)
 
         lgbtq2s_friendly = request.POST.get("lgbtq2s_friendly")
@@ -56,13 +62,12 @@ def index(request):
             "all_shelters": all_shelters
         }
 
+
         for house in all_shelters:
             dest_lat = str(house.latitude)
             dest_lon = str(house.longitude)
-            # TODO: replace origins with google maps geolocator coordinates (ryan's code)
-            # orig_lat = original latitude val
-            # orig_lon = original longitude val
-            url = "https://maps.googleapis.com/maps/api/distancematrix/json?origins=53.56764,-113.48694&destinations="+ dest_lat +","+ dest_lon +"&units=metric&key="+settings.GOOGLE_API_KEY
+
+            url = "https://maps.googleapis.com/maps/api/distancematrix/json?origins="+orig_lat+","+orig_lon+"&destinations="+ dest_lat +","+ dest_lon +"&units=metric&key="+settings.GOOGLE_API_KEY
             payload={}
             headers = {}
 
