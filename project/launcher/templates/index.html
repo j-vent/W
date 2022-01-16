@@ -153,14 +153,12 @@
                                 list-style-type: none;
                             }
                         </style>
-                        {% for house in all_shelters %}
-                        <div class="card" style="width: 19rem;">
-                            <div>
+                        <div class="row">
+                            {% for house in all_shelters %}
                                 <h4>{{house.shelter_name}}</h4>
-                                <h5 class="card-subtitle mb-2 text-muted">{{house.address}}</h5>
+                                <h5>{{house.address}}</h5>
                                 <h5> Current predicted capacity:</h5><h5>{{house.capacity}}</h5>
-                                {% endfor %}
-                            </div>
+                            {% endfor %}
                         </div>
                     </div> 
             </div>
