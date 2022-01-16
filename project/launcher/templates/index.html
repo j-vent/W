@@ -142,11 +142,11 @@
                     <!--list of shelters-->
                      <!--list formatting: https://www.artlebedev.com/tools/technogrette/html/line_separated_list/-->
                   
-                     <div class="col-md-4">
+                     <div class="col-md-4" style="margin-top: 60px;overflow-y: scroll;width: 350px; height: 500px">
                         <br>
-                        <!--margin-top: 60px;width: 300px; height: 450px;  width: 250px; padding: 5px; margin:5px-->
+                        <!--width: 300px; height: 450px;  width: 250px; padding: 5px; margin:5px-->
                         {% for house in all_shelters %}
-                        <div class="card" style="">
+                        <div class="card" style=" width: 250px; padding: 5px; margin:5px; color:#bd85ce">
                             <div class="card-body">
                                 <h5>{{house.shelter_name}}</h5>
                                 <p class="card-subtitle mb-2 text-muted">{{house.address}}</p>
@@ -155,9 +155,9 @@
                                 <a href={{house.website_url}} class="card-link">Website</a>
                                 <a href = "https://www.google.com/maps?saddr=My+Location&daddr={{house.latlon}}" class="card-link">Get Directions</a>
                                 <img class="card-img-top" src={{house.photo_url}} alt="image of listed shelter">
-                                {% endfor %}
                             </div>
                         </div>
+                        {% endfor %}
                    
                 </div>
             </div>
