@@ -1,11 +1,49 @@
 from django.shortcuts import render
 from launcher.models import Housing
-from .filters import HousingFilter
-import csv
 # Create your views here.
 
 
 def index(request):
+    all_shelters = Housing.objects.all()
+
+    if (request.method == "POST"):
+        lgbtq2s_friendly = request.POST.get("lgbtq2s_friendly")
+        if lgbtq2s_friendly:
+            print("lgbtq2s")
+            all_shelters = all_shelters.filter(lgbtq2s_friendly=1)
+
+        wheelchair_accessible = request.POST.get("wheelchair_accessible")
+        if wheelchair_accessible:
+            print("wheelchair")
+            all_shelters = all_shelters.filter(wheelchair_accessible=1)
+
+        public_transit_accessible = request.POST.get("public_transit_accessible")    
+        if public_transit_accessible:
+            print("public_transit")
+            all_shelters = all_shelters.filter(public_transit_accessible=1)
+
+        women_only = request.POST.get("women_only")    
+        if women_only:
+            print("women_only")
+            all_shelters = all_shelters.filter(women_only=1)
+
+        food_provided = request.POST.get("food_provided")
+        if food_provided:
+            print("food")
+            all_shelters = all_shelters.filter(food_provided=1)
+
+        showers_provided = request.POST.get("showers_provided")
+        if showers_provided:
+            print("showers")
+            all_shelters = all_shelters.filter(showers_provided=1)
+
+        context = {
+            "all_shelters": all_shelters
+        }
+        
+        # TODO: Change the HTML to be rendered to something else?
+        return render(request, 'my_filter.html', context)
+
     # TODO: load csv data into our housing model -- is this for a particular day??
     # TODO: get best housing options 
     housing = Housing.objects.all() # get complete list of housing
@@ -16,40 +54,4 @@ def index(request):
     }
 
     # send request to the index page with the housing data passed in
-    return render(request, 'index.html', context)
-
-# Try to filter stuff here (MVP) 
-def search(request):
-    # with open('/Users/cheetey/Documents/Winter2022/W/project/launcher/test_model.csv', 'r') as file:
-    #     reader = csv.reader(file)
-    #     for row in reader:
-    #         print(row)
-    distance = request.GET.get("distance")
-    print("Distance provided: " + distance)
-
-    housing_list_from_db = Housing.objects.all()
-    
-    # Loop thru the dataset and save those shelters that are within the range into "within_dist"
-    within_distance_shelter_names = []
-
-    # Distance parameter is provided
-    if distance:
-        with open('/Users/cheetey/Documents/Winter2022/W/project/launcher/test_model.csv', 'r') as file:
-            reader = csv.reader(file)
-            for row in reader:
-                print(row[3])
-                if int(row[3]) <= int(distance):
-                    # print("row: " + row[3] " and distance: " + distance)
-                    within_distance_shelter_names.append(row[0])
-
-    # Distance parameter is not provided
-    else:
-        within_distance_shelter_names = housing_list_from_db
-    print(within_distance_shelter_names)
-
-    housing_filter = HousingFilter(request.GET, queryset=housing_list_from_db)
-    context = {
-        'filter': housing_filter,
-        'distance': within_distance_shelter_names
-    }
     return render(request, 'index.html', context)
