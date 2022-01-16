@@ -14,12 +14,49 @@
         /* The width is the width of the web page */
       }
     </style>
+ 
      <script type="text/javascript">
         // data from views.py
+        // var myDjangoList = (("{{all_shelters |safe}}").replace(/&(l|g|quo)t;/g, function(a,b){
+        //     return {
+        //         l   : '<',
+        //         g   : '>',
+        //         quo : '"'
+        //     }[b];
+        // }));
+
+        // myDjangoList = myDjangoList.replace(/u'/g, '\'')
+        // myDjangoList = myDjangoList.replace(/'/g, '\"')
+
+        // myData = JSON.parse( myDjangoList );
+        // console.log("my data ", myData)
+        
+        // console.log("name ", myData[0]['shelter_name'])
+        // for(var i = 0; i < myData.length; i++) {
+        //     console.log("stuff: ", myData[i]['shelter_name'])
+        //     console.log("capstuff: ", myData[i]['capacity'])
+        // }
+        const housings_test = '{{all_shelters|escapejs}}'
+        // housings_test = jQuery.parseJSON(housings_test)
+        console.log("housing ", housings_test);
+        ///console.log("sheltername ", housings_test[0].shelter_name)
+        // housings_test.forEach(([position, title], i) => {
+
+        // })
+        // for(var i = 0; i < housings_test.length; i++) {
+        //     console.log("housing shit " ,housings_test[i]);
+        // }
+        // for(house in housings_test){
+        //     console.log(house)
+        //     console.log("housing sheltername ", house.shelter_name);
+        // }
         var google_api_key = "{{google_api_key|safe}}";
-        let lat_0 = Number("{{lat_0}}");
-        let lon_0 = Number("{{lon_0}}");
-      </script>
+        // let lat_0 = Number("{{lat_0}}");
+        // let lon_0 = Number("{{lon_0}}");
+        // for(house in "{{all_shelters}}"){
+            
+        // }
+    </script>
     <script >
       // Initialize and add the map
       function initMap() {
@@ -33,32 +70,62 @@
         
         // TODO: fill all this data with information from views.py
         // just use the top 3 values from the housing list?
-        console.log("LAT!! ", lat_0)
-        const housings = [
-        [{ lat: lat_0, lng: lon_0}, "McCauley Lodge"],
-        [{ lat: 53.55019, lng: -113.49134}, "Hope Mission"],
-        [{ lat: 53.54576, lng: -113.51759 }, "Edwardson Place"],
-    ];
+        // console.log("LAT!! ", lat_0)
+    //     const housings = [
+    //     [{ lat: lat_0, lng: lon_0}, "McCauley Lodge"],
+    //     [{ lat: 53.55019, lng: -113.49134}, "Hope Mission"],
+    //     [{ lat: 53.54576, lng: -113.51759 }, "Edwardson Place"],
+    // ];
+        const housings = []
+        var myDjangoList = (("{{all_shelters |safe}}").replace(/&(l|g|quo)t;/g, function(a,b){
+            return {
+                l   : '<',
+                g   : '>',
+                quo : '"'
+            }[b];
+        }));
+
+        myDjangoList = myDjangoList.replace(/u'/g, '\'')
+        myDjangoList = myDjangoList.replace(/'/g, '\"')
+
+        myData = JSON.parse( myDjangoList );
+        
+        
         // Create an info window to share between markers.
         const infoWindow = new google.maps.InfoWindow();
 
         // Create the markers.
-        housings.forEach(([position, title], i) => {
-        const marker = new google.maps.Marker({
-            position,
-            map,
-            title: `${i + 1}. ${title}`,
-            label: `${i + 1}`,
-            optimized: false,
-        });
-
+        // housings.forEach(([position, title], i) => {
+        // const marker = new google.maps.Marker({
+        //     position,
+        //     map,
+        //     title: `${i + 1}. ${title}`,
+        //     label: `${i + 1}`,
+        //     optimized: false,
+        // });
+        for(var i = 0; i < myData.length; i++) {
+            console.log("stuff: ", myData[i]['shelter_name'])
+            console.log("capstuff: ", myData[i]['capacity'])
+            console.log("stuff ", parseFloat(myData[i]['latitude']))
+            // const myLatLng = { lat:parseFloat(myData[i]['latitude']), lng: parseFloat(myData[i]['longitude'])};
+            const myLatLng = new google.maps.LatLng(3.55019,-113.49134);
+            console.log("lat lon ", myLatLng)
+            const marker = new google.maps.Marker({
+                myLatLng,
+                map,
+                title: `${i + 1}` + myData[i]['shelter_name'],
+                label: `${i + 1}`,
+                optimized: false,
+            });
+            marker.addListener("click", () => {
+                infoWindow.close();
+                infoWindow.setContent(marker.getTitle());
+                infoWindow.open(marker.getMap(), marker);
+             });
+        }
         // Add a click listener for each marker, and set up the info window.
-        marker.addListener("click", () => {
-            infoWindow.close();
-            infoWindow.setContent(marker.getTitle());
-            infoWindow.open(marker.getMap(), marker);
-        });
-        });
+        
+        // });
 
       }
     </script>
@@ -93,11 +160,12 @@
   </form>
 
 <div class="row">
-    {% for house in housing %}
-        <h2>{{house.name}}</h2>
+    {% for house in all_shelters %}
+        <h2>{{house.shelter_name}}</h2>
         <h2>{{house.address}}</h2>
         <h2>{{house.capacity}}</h2>
     {% endfor %}
+</div>
     
     <!-- Async script executes immediately and must be after any DOM elements used in callback. -->
     <script
