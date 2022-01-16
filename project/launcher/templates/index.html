@@ -45,7 +45,7 @@
         <section id="scroll">
             <div class="container">
                 <div class="row">
-                    <div class="col-md-2">
+                    <div class="col-sm-2">
                         <br>
                         <!-- filters, https://www.w3schools.com/howto/howto_css_custom_checkbox.asp -->
                         <form action="{% url 'index' %}" method="post">
@@ -136,23 +136,19 @@
                     </div>
                     <!--list of shelters-->
                      <!--list formatting: https://www.artlebedev.com/tools/technogrette/html/line_separated_list/-->
-                    <div class="col-md-3">
+                     <div class="col-md-3" style="width: 200px; height: 500px; overflow-y: scroll;">
                         <br>
                         {% for house in all_shelters %}
-                        <div class="card" style="width: 20rem;">
+                        <div class="card" style="width: 15rem;">
                             <div>
-                                <h4>{{house.shelter_name}}</h4>
-                                <h5 class="card-subtitle mb-2 text-muted">{{house.address}}</h5>
-                                <h5> Current predicted capacity:</h5><h5>{{house.capacity}}</h5>
+                                <h6>{{house.shelter_name}}</h6>
+                                <p class="card-subtitle mb-2 text-muted">{{house.address}}</p>
+                                <p> Predicted capacity:</p><h6>{{house.capacity}}</h6>
                                 {% endfor %}
                             </div>
                         </div>
                     </div> 
             </div>
-        <!-- Footer-->
-        <footer class="py-5 bg-white">
-            <div class="container px-5"><p class="m-0 text-center text-black small">W &copy; Some Warmth HackED 2022</p></div>
-        </footer>
         <!-- Bootstrap core JS-->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     </body>
