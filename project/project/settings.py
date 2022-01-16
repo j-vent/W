@@ -27,6 +27,9 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+# justine's account 
+GOOGLE_API_KEY = "AIzaSyAuAwyUS_LqCs0uSfMIewefuSSllj2fD7A"
+
 
 # Application definition
 
