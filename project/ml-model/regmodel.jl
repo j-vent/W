@@ -27,7 +27,7 @@ end
 mutable struct Regressor
 	X::Matrix{Float64};
 	Y::Vector{Float64};
-	w = 
+	w::Vector{Float64}; 
 	stepsize::Float64;
 	gradient::Float64;
 end
@@ -38,11 +38,19 @@ function basis(pr::Regressor,p::Int64)
 	return 0;
 end
 
-function mb_update(pr::Regressor)
+function mb_update(pr::Regressor,batch_size::Int64,epochs::Int64)
 	# mini-batch gradient descent to update param w
 	
+	# using this to sample x,y pairs randomly
 	indices = randperm!(1:length(pr.X));
-	println(indices);
+
+	for p in 1:epochs
+		for k in ((p*batch_size)-batch_size):(p*batch_size)
+			pr.g = ((pr.X[k,:]*pr.w[k]) - pr.Y[k])*self.X[k,:];
+			pr.stepsize = (1/p+1);
+			pr.w = pr.w - (pr.stepsize*pr.g)
+		end
+	end
 
 end
 
@@ -64,18 +72,24 @@ dropmissing!(shelters_copy,[:Overnight,:Capacity]);
 fix_dates(shelters_copy);
 
 # formatting the dataframe, removing columns that aren't used
-remove_col = [:Date,Symbol("Shelter Type"),:Shelter,:Year,:Month];
+remove_col = [:Date,Symbol("Shelter Type"),:Shelter,:Year,:Month,:Organization];
 select!(shelters_copy,Not(remove_col));
 
 # making column overnight/capacity
-test = transform(shelters_copy, [:Overnight,:Capacity] => (./) => :Ratio);
+shelters_copy = transform(shelters_copy, [:Overnight,:Capacity] => (./) => :Ratio);
 
 # dataframe  of shelter names + frequency
 shelter_names = combine(groupby(shelters_copy,"Shelter Name"), nrow  => :count);
 
-X = 
-pr = Regressor()
+#-----------------------------------------------------|
+#Test
 
+println(shelters_copy[1,:]); 
+
+X = shelters_copy.Ratio;
+Y = shelters_copy.FixedDate;
+w = zeros(length(X));
+pr = Regressor(X,Y,w,0,0)
 
 
 
