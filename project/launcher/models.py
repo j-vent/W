@@ -22,5 +22,3 @@ class Housing(models.Model):
 
     # TODO: add ratings for security, comfort, etc.
     rating = models.FloatField()
-
-    

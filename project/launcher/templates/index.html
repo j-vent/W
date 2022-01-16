@@ -67,6 +67,32 @@
     <h3>MAP!!</h3>
     <!--The div element for the map -->
     <div id="map"></div>
+<h1>Housing Project</h1>
+
+<form action="{%  url  'index'  %}" method="POST">
+    {% csrf_token %}
+    <input type="checkbox" name="lgbtq2s_friendly" value="1">
+        <label for="lgbtq2s_friendly">LGBTQ2S+ friendly</label><br>
+
+    <input type="checkbox" name="wheelchair_accessible" value="1">
+        <label for="wheelchair_accessible">Wheelchair Accessible</label><br>
+
+    <input type="checkbox" name="public_transit_accessible" value="1">
+        <label for="public_transit_accessible">Public Transit accessible</label><br>
+
+    <input type="checkbox" name="women_only" value="1">
+        <label for="women_only">Women Only</label><br>
+
+    <input type="checkbox" name="food_provided" value="1">
+        <label for="food_provided">Food provided</label><br>
+
+    <input type="checkbox" name="showers_provided" value="1">
+        <label for="showers_provided">Showers provided</label><br>
+
+    <input type="submit" value="Submit">
+  </form>
+
+<div class="row">
     {% for house in housing %}
         <h2>{{house.name}}</h2>
         <h2>{{house.address}}</h2>
