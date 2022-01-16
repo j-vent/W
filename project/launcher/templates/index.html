@@ -44,8 +44,8 @@
         
         <section id="scroll">
             <div class="container">
-                <div class="row">
-                    <div class="col-md-2">
+                <div class="row" style =vertical-align:middle>
+                    <div class="col-sm-2">
                         <br>
                         <!-- filters, https://www.w3schools.com/howto/howto_css_custom_checkbox.asp -->
                         <form action="{% url 'index' %}" method="post">
@@ -112,7 +112,7 @@
                     </div>
                         
                     <!--map-->    
-                    <div class="col-md-7"> <!-- in Bootstrap, the grids are 12 cols so the map takes up 9 cols -->
+                    <div class="col-lg-8"> <!-- in Bootstrap, the grids are 12 cols so the map takes up 9 cols -->
                         <title>Some Warmth</title>
 
                         <style type="text/css">
@@ -139,36 +139,21 @@
                     </div>
                     <!--list of shelters-->
                      <!--list formatting: https://www.artlebedev.com/tools/technogrette/html/line_separated_list/-->
-                    <div class="col-md-3">
+                     <div class="col-md-4" style="width: 200px; height: 500px; overflow-y: scroll;">
                         <br>
-                        <style type="text/css">
-                            ul.line-separated
-                            {
-                                background-color: rgb(10, 10, 10);
-                                padding: 0;
-                                margin-left: 1em;
-                            }
-                            ul.line-separated li
-                            {
-                                background-color: white;
-                                margin: 1px 0 0 0;
-                                padding: 0;
-                                list-style-type: none;
-                            }
-                        </style>
-                        <div class="row">
-                            {% for house in all_shelters %}
-                                <h4>{{house.shelter_name}}</h4>
-                                <h5>{{house.address}}</h5>
-                                <h5> Current predicted capacity:</h5><h5>{{house.capacity}}</h5>
-                            {% endfor %}
+                        {% for house in all_shelters %}
+                        <div class="card" style="width: 10rem;">
+                            <div>
+                                <h5>{{house.shelter_name}}</h5>
+                                <p class="card-subtitle mb-2 text-muted">{{house.address}}</p>
+                                <h6> Predicted capacity:</h6><h6>{{house.capacity}}</h6>
+                                <a href={{house.website_url}} class="card-link">Website</a>
+                                <img class="card-img-top" src={{house.photo_url}} alt="image of listed shelter">
+                                {% endfor %}
+                            </div>
                         </div>
                     </div> 
             </div>
-        <!-- Footer-->
-        <footer class="py-5 bg-white">
-            <div class="container px-5"><p class="m-0 text-center text-black small">W &copy; Some Warmth HackED 2022</p></div>
-        </footer>
         <!-- Bootstrap core JS-->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     </body>
