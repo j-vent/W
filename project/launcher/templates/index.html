@@ -36,23 +36,3 @@
         </div>
     </div>
     {% endfor %}
-
-
-
-    <form method="GET">
-        {{ filter.form.as_p }}
-        <label for="distance">Distance (within x km):</label>
-        <input type="number" id="distance" name="distance" min="1">
-        <button type="submit">Search</button>
-      </form>
-      <ul>
-      {% for user in filter.qs %}
-        <li>{{ user.organization }} - {{ user.shelter_name }} – {{  user.shelter_type  }}</li>
-      {% endfor %}
-
-      {%  for within_distance_shelter_name in within_distance_shelter_names %}
-          <li>{{ user.organization }} - {{ user.shelter_name }} – {{  user.shelter_type  }}</li>
-      {%  endfor  %}
-      </ul>
-</div>
-{% endblock %}
