@@ -17,6 +17,12 @@ def index(request):
     within_distance_shelters = []
 
     if (request.method == "POST"):
+        print("POST fired")
+        lat_from_js = request.POST.get("lat_from_js")
+        long_from_js = request.POST.get("long_from_js")
+        print(lat_from_js)
+        print(long_from_js)
+
         distance_param = int(request.POST.get("distance_frm_my_current_location"))
         print("distance param ", distance_param)
 
