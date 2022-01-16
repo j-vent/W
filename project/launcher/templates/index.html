@@ -66,7 +66,12 @@
     <h3>MAP!!</h3>
     <!--The div element for the map -->
     <div id="map"></div>
-
+    {% for house in housing %}
+        <h2>{{house.name}}</h2>
+        <h2>{{house.address}}</h2>
+        <h2>{{house.lgbtq_friendly}}</h2>
+    {% endfor %}
+    
     <!-- Async script executes immediately and must be after any DOM elements used in callback. -->
     <script
       src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAuAwyUS_LqCs0uSfMIewefuSSllj2fD7A&callback=initMap&libraries=&v=weekly"

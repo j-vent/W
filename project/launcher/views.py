@@ -13,11 +13,14 @@ def index(request):
     # TODO: load csv data into our housing model -- is this for a particular day??
     # TODO: get best housing options 
     housing = Housing.objects.all() # get complete list of housing
-    
+
     # TODO: additional filtering of housing objects in db based on user requests (i.e. they want something < 2 km and has showers)
     logging.basicConfig(level = logging.INFO)
     logging.warning("fuc")
 
+    # TODO: get actual distance from user
+    distance_param = 2
+    within_distance_shelters = []
 
     # TODO: change the origins coordinates, destination coordinates will be from the database
     # TODO: loop through the housing db -- look for the houses returned by csv in the database and get their coordinates
@@ -32,23 +35,28 @@ def index(request):
     # for key, value in jsonResponse.items():
     #     print(key, value)
     
+    # parse json
     distance = jsonResponse['rows'][0]['elements'][0]['distance']['text']
     print("distance json response ", distance)
-    distance_val = distance.split(" ")[0]
+    distance_val = float(distance.split(" ")[0])
 
+    if (distance_val <= distance_param):
+        within_distance_shelters.append({'name':'Hope Mission',
+         'address': '9908 106 Ave NW, Edmonton, AB T5H 0N6',
+         'lgbtq_friendly': True})
+
+    print("items in within dist", within_distance_shelters)
+    # TODO: filter within distance shelter by other fields (Chee code)
 
     context = {
-        'housing': housing,
+        'housing': within_distance_shelters,
         'google_api_key': settings.GOOGLE_API_KEY,
         'lat_0': 53.55511,
         'lon_0' : -113.48496,
         'res' : response
+        
     }
     print("in view!")
-   
-    
-
-    
 
     # send request to the index page with the housing data passed in
     return render(request, 'index.html', context)
