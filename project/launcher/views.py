@@ -17,6 +17,9 @@ def index(request):
     within_distance_shelters = []
 
     if (request.method == "POST"):
+        distance_param = int(request.POST.get("distance_frm_my_current_location"))
+        print("distance param ", distance_param)
+
         lgbtq2s_friendly = request.POST.get("lgbtq2s_friendly")
         if lgbtq2s_friendly:
             print("lgbtq2s")
