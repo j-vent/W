@@ -22,3 +22,6 @@ class Housing(models.Model):
 
     # TODO: add ratings for security, comfort, etc.
     rating = models.FloatField()
+
+    photo_url= models.CharField(max_length=2048, default="https://i.pinimg.com/originals/c3/a2/6c/c3a26c0c8b6110d2e232e72c79c1ba68.jpg")
+    website_url= models.CharField(max_length=2048, default="https://www.google.com")

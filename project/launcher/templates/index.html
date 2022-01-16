@@ -44,7 +44,7 @@
         
         <section id="scroll">
             <div class="container">
-                <div class="row">
+                <div class="row" style =vertical-align:middle>
                     <div class="col-sm-2">
                         <br>
                         <!-- filters, https://www.w3schools.com/howto/howto_css_custom_checkbox.asp -->
@@ -109,7 +109,7 @@
                     </div>
                         
                     <!--map-->    
-                    <div class="col-md-7"> <!-- in Bootstrap, the grids are 12 cols so the map takes up 9 cols -->
+                    <div class="col-lg-8"> <!-- in Bootstrap, the grids are 12 cols so the map takes up 9 cols -->
                         <title>Some Warmth</title>
 
                         <style type="text/css">
@@ -136,14 +136,16 @@
                     </div>
                     <!--list of shelters-->
                      <!--list formatting: https://www.artlebedev.com/tools/technogrette/html/line_separated_list/-->
-                     <div class="col-md-3" style="width: 200px; height: 500px; overflow-y: scroll;">
+                     <div class="col-md-4" style="width: 200px; height: 500px; overflow-y: scroll;">
                         <br>
                         {% for house in all_shelters %}
-                        <div class="card" style="width: 15rem;">
+                        <div class="card" style="width: 10rem;">
                             <div>
-                                <h6>{{house.shelter_name}}</h6>
+                                <h5>{{house.shelter_name}}</h5>
                                 <p class="card-subtitle mb-2 text-muted">{{house.address}}</p>
-                                <p> Predicted capacity:</p><h6>{{house.capacity}}</h6>
+                                <h6> Predicted capacity:</h6><h6>{{house.capacity}}</h6>
+                                <a href={{house.website_url}} class="card-link">Website</a>
+                                <img class="card-img-top" src={{house.photo_url}} alt="image of listed shelter">
                                 {% endfor %}
                             </div>
                         </div>

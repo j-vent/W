@@ -4,11 +4,13 @@ from django.conf import settings
 import requests
 
 import logging
+from django.views.decorators.csrf import csrf_exempt
 
 
 # Create your views here.
 
 
+@csrf_exempt
 def index(request):
     all_shelters = Housing.objects.all()
 
@@ -76,7 +78,7 @@ def index(request):
             if (distance_val <= distance_param):
                 within_distance_shelters.append({'shelter_name':house.shelter_name,
                 'address': house.address,
-                'capacity': house.capacity, 'longitude' : str(house.longitude), 'latitude':str(house.latitude)})
+                'capacity': house.capacity, 'longitude' : str(house.longitude), 'latitude':str(house.latitude), 'website_url':str(house.website_url), 'photo_url':str(house.photo_url)})
 
         print("items in within dist", within_distance_shelters)
         context = {
@@ -97,6 +99,6 @@ def index(request):
     }
 
     print("in view!")
-
+    print(context['housing'])
     # send request to the index page with the housing data passed in
     return render(request, 'index.html', context)
