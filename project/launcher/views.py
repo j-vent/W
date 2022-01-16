@@ -13,5 +13,10 @@ def index(request):
         'housing': housing,
     }
 
+    # get lat/long from button
+    #user_latitude = request.GET.get('latitude')
+    #user_longitude = request.GET.get('longitude')
+
+
     # send request to the index page with the housing data passed in
     return render(request, 'index.html', context)
