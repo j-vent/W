@@ -61,21 +61,13 @@
       // Initialize and add the map
       function initMap() {
         // The location of center of YEG
-        const centerYEG = { lat: 53.544, lng: -113.491};
+        const centerYEG = { lat: 53.54733, lng: -113.48887};
         // The map, centered in YEG
         const map = new google.maps.Map(document.getElementById("map"), {
-          zoom: 17,
+          zoom: 16,
           center: centerYEG,
         });
-        
-        // TODO: fill all this data with information from views.py
-        // just use the top 3 values from the housing list?
-        // console.log("LAT!! ", lat_0)
-    //     const housings = [
-    //     [{ lat: lat_0, lng: lon_0}, "McCauley Lodge"],
-    //     [{ lat: 53.55019, lng: -113.49134}, "Hope Mission"],
-    //     [{ lat: 53.54576, lng: -113.51759 }, "Edwardson Place"],
-    // ];
+    
         const housings = []
         var myDjangoList = (("{{all_shelters |safe}}").replace(/&(l|g|quo)t;/g, function(a,b){
             return {
@@ -102,6 +94,7 @@
         }
         console.log("housings** ");
         console.log(housings);
+
         // Create the markers.
         housings.forEach(([position, title], i) => {
             const marker = new google.maps.Marker({
@@ -121,7 +114,6 @@
         // Add a click listener for each marker, and set up the info window.
         
         );
-
       }
     </script>
   </head>
