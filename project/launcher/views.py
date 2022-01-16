@@ -78,6 +78,10 @@ def index(request):
             # parse json
             distance = jsonResponse['rows'][0]['elements'][0]['distance']['text']
             print("distance json response ", distance)
+            if len(str(distance)) >= 4:
+                str_val = str(distance).split(",")
+                joining_str = "".join(str_val)
+                distance_val = float(joining_str[0])
             distance_val = float(distance.split(" ")[0])
 
             if (distance_val <= distance_param):
