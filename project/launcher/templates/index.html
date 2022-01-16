@@ -32,6 +32,7 @@
         });
         
         // TODO: fill all this data with information from views.py
+        // just use the top 3 values from the housing list?
         console.log("LAT!! ", lat_0)
         const housings = [
         [{ lat: lat_0, lng: lon_0}, "McCauley Lodge"],
@@ -69,7 +70,7 @@
     {% for house in housing %}
         <h2>{{house.name}}</h2>
         <h2>{{house.address}}</h2>
-        <h2>{{house.lgbtq_friendly}}</h2>
+        <h2>{{house.capacity}}</h2>
     {% endfor %}
     
     <!-- Async script executes immediately and must be after any DOM elements used in callback. -->

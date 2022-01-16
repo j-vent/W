@@ -14,36 +14,38 @@ def index(request):
     # TODO: get best housing options 
     housing = Housing.objects.all() # get complete list of housing
 
-    # TODO: additional filtering of housing objects in db based on user requests (i.e. they want something < 2 km and has showers)
-    logging.basicConfig(level = logging.INFO)
-    logging.warning("fuc")
+    # TODO: additional filtering of housing objects in db based on user requests (i.e. lgbtq+ friendly and has showers)
+    # add chee code
 
     # TODO: get actual distance from user
     distance_param = 2
     within_distance_shelters = []
 
-    # TODO: change the origins coordinates, destination coordinates will be from the database
-    # TODO: loop through the housing db -- look for the houses returned by csv in the database and get their coordinates
-    url = "https://maps.googleapis.com/maps/api/distancematrix/json?origins=53.56764,-113.48694&destinations=53.55019,-113.49134&units=metric&key="+settings.GOOGLE_API_KEY
-    payload={}
-    headers = {}
+    for house in housing:
+        # print('lat ', house.latitude)
+        # print('lon ', house.longitude)
+        dest_lat = str(house.latitude)
+        dest_lon = str(house.longitude)
+        # TODO: replace origins with google maps geolocator coordinates (ryan's code)
+        # orig_lat = original latitude val
+        # orig_lon = original longitude val
+        url = "https://maps.googleapis.com/maps/api/distancematrix/json?origins=53.56764,-113.48694&destinations="+ dest_lat +","+ dest_lon +"&units=metric&key="+settings.GOOGLE_API_KEY
+        payload={}
+        headers = {}
 
-    # extract json
-    response = requests.request("GET", url, headers=headers, data=payload)
-    jsonResponse = response.json()
-    # print(response.text)
-    # for key, value in jsonResponse.items():
-    #     print(key, value)
-    
-    # parse json
-    distance = jsonResponse['rows'][0]['elements'][0]['distance']['text']
-    print("distance json response ", distance)
-    distance_val = float(distance.split(" ")[0])
+        # extract json
+        response = requests.request("GET", url, headers=headers, data=payload)
+        jsonResponse = response.json()
+        
+        # parse json
+        distance = jsonResponse['rows'][0]['elements'][0]['distance']['text']
+        print("distance json response ", distance)
+        distance_val = float(distance.split(" ")[0])
 
-    if (distance_val <= distance_param):
-        within_distance_shelters.append({'name':'Hope Mission',
-         'address': '9908 106 Ave NW, Edmonton, AB T5H 0N6',
-         'lgbtq_friendly': True})
+        if (distance_val <= distance_param):
+            within_distance_shelters.append({'name':house.shelter_name,
+            'address': house.address,
+            'capacity': house.capacity})
 
     print("items in within dist", within_distance_shelters)
     # TODO: filter within distance shelter by other fields (Chee code)
