@@ -94,29 +94,24 @@
         // Create an info window to share between markers.
         const infoWindow = new google.maps.InfoWindow();
 
-        // Create the markers.
-        // housings.forEach(([position, title], i) => {
-        // const marker = new google.maps.Marker({
-        //     position,
-        //     map,
-        //     title: `${i + 1}. ${title}`,
-        //     label: `${i + 1}`,
-        //     optimized: false,
-        // });
         for(var i = 0; i < myData.length; i++) {
-            console.log("stuff: ", myData[i]['shelter_name'])
-            console.log("capstuff: ", myData[i]['capacity'])
-            console.log("stuff ", parseFloat(myData[i]['latitude']))
-            // const myLatLng = { lat:parseFloat(myData[i]['latitude']), lng: parseFloat(myData[i]['longitude'])};
-            const myLatLng = new google.maps.LatLng(3.55019,-113.49134);
-            console.log("lat lon ", myLatLng)
+            let varList = [];
+            varList[0] = { lat:parseFloat(myData[i]['latitude']), lng: parseFloat(myData[i]['longitude'])};
+            varList[1] = myData[i]['shelter_name'];
+            housings[i] = varList;
+        }
+        console.log("housings** ");
+        console.log(housings);
+        // Create the markers.
+        housings.forEach(([position, title], i) => {
             const marker = new google.maps.Marker({
-                myLatLng,
+                position,
                 map,
-                title: `${i + 1}` + myData[i]['shelter_name'],
+                title: `${i + 1}. ${title}`,
                 label: `${i + 1}`,
                 optimized: false,
             });
+        
             marker.addListener("click", () => {
                 infoWindow.close();
                 infoWindow.setContent(marker.getTitle());
@@ -125,7 +120,7 @@
         }
         // Add a click listener for each marker, and set up the info window.
         
-        // });
+        );
 
       }
     </script>
