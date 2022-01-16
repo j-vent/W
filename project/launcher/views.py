@@ -87,7 +87,8 @@ def index(request):
             if (distance_val <= distance_param):
                 within_distance_shelters.append({'shelter_name':house.shelter_name,
                 'address': house.address,
-                'capacity': house.capacity, 'longitude' : str(house.longitude), 'latitude':str(house.latitude), 'website_url':str(house.website_url), 'photo_url':str(house.photo_url)})
+                'capacity': house.capacity, 'longitude' : str(house.longitude), 'latitude':str(house.latitude), 'website_url':str(house.website_url), 'photo_url':str(house.photo_url),
+                'latlon':str(house.latitude)+ "," +str(house.longitude)})
 
         print("items in within dist", within_distance_shelters)
         context = {
