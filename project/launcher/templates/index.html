@@ -3,12 +3,13 @@
 <html lang="en">
     <head>
         <meta charset="utf-8" />
+        <!--link rel="icon" type="image/png" href="assets/favicon.png"/>-->
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <meta name="description" content="" />
         <meta name="author" content="" />
         <title>Some Warmth</title>
         {% load static %}
-        <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+        <link rel="shortcut icon" type="image/png" href="static/assets/favicon.ico"/>
         <!-- Font Awesome icons (free version)-->
         <script src="https://use.fontawesome.com/releases/v5.15.4/js/all.js" crossorigin="anonymous"></script>
         <!-- Google fonts-->
@@ -43,15 +44,15 @@
         </header>
         
         <section id="scroll">
-            <div class="container">
-                <div class="row" style =vertical-align:middle>
-                    <div class="col-sm-2">
+            <div class="container" style="width: 1400px; height: 800px">
+                <div class="row" style ="vertical-align:middle; width: 1400px; height: 800px">
+                    <div class="col-sm-2" style="margin-top: 50px;">
                         <br>
                         <!-- filters, https://www.w3schools.com/howto/howto_css_custom_checkbox.asp -->
                         <form action="{% url 'index' %}" method="post">
                             {% csrf_token %}
-                                <div class="slidecontainer">
-                                    <label for="distance_frm_my_current_location">maximum distance from current location:</label><br>
+                                <div class="slidecontainer" style="margin-bottom: 20px;">
+                                    <label for="distance_frm_my_current_location">Maximum distance from current location:</label><br>
                                     <input type="range" style="height: 5px" name="distance_frm_my_current_location" min="1" max="35" value="5" class="slider" id="myRange", style="background-color:#bd85ce">
                                     <body>
                                         <div style="position:relative; margin:auto; width:95%">
@@ -112,7 +113,7 @@
                     </div>
                         
                     <!--map-->    
-                    <div class="col-lg-8"> <!-- in Bootstrap, the grids are 12 cols so the map takes up 9 cols -->
+                    <div class="col-md-6" style="margin-top: 20px;"> <!-- in Bootstrap, the grids are 12 cols so the map takes up 9 cols -->
                         <title>Some Warmth</title>
 
                         <style type="text/css">
@@ -126,7 +127,7 @@
                         </style>
  
                     <body>
-                        <h3>Shelters</h3>
+                        <h3 style="margin-top: 20px;">Shelters</h3>
                         <!--The div element for the map -->
                         <div id="map"></div>
                     
@@ -139,10 +140,10 @@
                     </div>
                     <!--list of shelters-->
                      <!--list formatting: https://www.artlebedev.com/tools/technogrette/html/line_separated_list/-->
-                     <div class="col-md-4" style="width: 200px; height: 500px; overflow-y: scroll;">
+                     <div class="col-md-4" style="margin-top: 60px; width: 300px; height: 450px; overflow-y: scroll;">
                         <br>
                         {% for house in all_shelters %}
-                        <div class="card" style="width: 10rem;">
+                        <div class="card" style="width: 250px; padding: 5px">
                             <div>
                                 <h5>{{house.shelter_name}}</h5>
                                 <p class="card-subtitle mb-2 text-muted">{{house.address}}</p>
