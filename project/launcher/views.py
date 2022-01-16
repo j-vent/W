@@ -13,20 +13,30 @@ def index(request):
     # TODO: load csv data into our housing model -- is this for a particular day??
     # TODO: get best housing options 
     housing = Housing.objects.all() # get complete list of housing
+    
     # TODO: additional filtering of housing objects in db based on user requests (i.e. they want something < 2 km and has showers)
-    # TODO: link to Google Maps API so we have a visual of these places
     logging.basicConfig(level = logging.INFO)
     logging.warning("fuc")
 
-    url = "https://maps.googleapis.com/maps/api/distancematrix/json?origins=Washington%2C%20DC&destinations=New%20York%20City%2C%20NY&units=imperial&key="+settings.GOOGLE_API_KEY
+
+    # TODO: change the origins coordinates, destination coordinates will be from the database
+    # TODO: loop through the housing db -- look for the houses returned by csv in the database and get their coordinates
+    url = "https://maps.googleapis.com/maps/api/distancematrix/json?origins=53.56764,-113.48694&destinations=53.55019,-113.49134&units=metric&key="+settings.GOOGLE_API_KEY
     payload={}
     headers = {}
 
+    # extract json
     response = requests.request("GET", url, headers=headers, data=payload)
+    jsonResponse = response.json()
+    # print(response.text)
+    # for key, value in jsonResponse.items():
+    #     print(key, value)
+    
+    distance = jsonResponse['rows'][0]['elements'][0]['distance']['text']
+    print("distance json response ", distance)
+    distance_val = distance.split(" ")[0]
 
-    print(response.text)
-    for key, value in response.text.items():
-        print(key, value)
+
     context = {
         'housing': housing,
         'google_api_key': settings.GOOGLE_API_KEY,
