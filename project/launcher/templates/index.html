@@ -52,7 +52,7 @@
                             {% csrf_token %}
                                 <div class="slidecontainer">
                                     <label for="distance_frm_my_current_location">maximum distance from current location:</label><br>
-                                    <input type="range" style="height: 5px" name="distance_frm_my_current_location" min="1" max="100" value="50" class="slider" id="myRange", color="#bd85ce">
+                                    <input type="range" style="height: 5px" name="distance_frm_my_current_location" min="1" max="35" value="5" class="slider" id="myRange", style="background-color:#bd85ce">
                                     <body>
                                         <div style="position:relative; margin:auto; width:95%">
                                           <span style="position:relative; color:bd85ce; border:1px solid bd85ce; min-width:100px;">
@@ -121,53 +121,7 @@
                             /* The width is the width of the web page */
                         }
                         </style>
-                        <script type="text/javascript">
-                            // data from views.py
-                            var google_api_key = "{{google_api_key|safe}}";
-                            let lat_0 = Number("{{lat_0}}");
-                            let lon_0 = Number("{{lon_0}}");
-                        </script>
-                        <script >
-                        // Initialize and add the map
-                        function initMap() {
-                            // The location of center of YEG
-                            const centerYEG = { lat: 53.544, lng: -113.491};
-                            // The map, centered in YEG
-                            const map = new google.maps.Map(document.getElementById("map"), {
-                            zoom: 17,
-                            center: centerYEG,
-                            });
-                            
-                            // TODO: fill all this data with information from views.py
-                            console.log("LAT!! ", lat_0)
-                            const housings = [
-                            [{ lat: lat_0, lng: lon_0}, "McCauley Lodge"],
-                            [{ lat: 53.55019, lng: -113.49134}, "Hope Mission"],
-                            [{ lat: 53.54576, lng: -113.51759 }, "Edwardson Place"],
-                        ];
-                            // Create an info window to share between markers.
-                            const infoWindow = new google.maps.InfoWindow();
-                    
-                            // Create the markers.
-                            housings.forEach(([position, title], i) => {
-                            const marker = new google.maps.Marker({
-                                position,
-                                map,
-                                title: `${i + 1}. ${title}`,
-                                label: `${i + 1}`,
-                                optimized: false,
-                            });
-                    
-                            // Add a click listener for each marker, and set up the info window.
-                            marker.addListener("click", () => {
-                                infoWindow.close();
-                                infoWindow.setContent(marker.getTitle());
-                                infoWindow.open(marker.getMap(), marker);
-                            });
-                            });
-                    
-                        }
-                        </script>
+ 
                     <body>
                         <h3>Shelters</h3>
                         <!--The div element for the map -->
@@ -199,20 +153,13 @@
                                 list-style-type: none;
                             }
                         </style>
-                        <ul class="line-separated">
-                            <li>Edwardson Place - Short Term Supportive</li>
-                            <li>Elizabeth House - Short Term Supportive</li>
-                            <li>Hope Mission - Herb Jamieson Centre</li>
-                            <li>Hope Mission - Herb Jamieson Winter Emergency</li>
-                            <li>Hope Mission - Intox Centre</li>
-                            <li>Hope Mission - Women WEmS</li>
-                            <li>Hope Mission - Youth</li>
-                            <li>McCauley Lodge - Short Term Supportive</li>
-                            <li>Salvation Army Addictions and Residential Centre - Short Term Supportive</li>
-                            <li>Sparling Lodge - Short Term Supportive</li>
-                            <li>Urban Manor - Short Term Supportive</li>
-                            <li>WEAC</li>
-                        </ul>
+                        <div class="row">
+                            {% for house in all_shelters %}
+                                <h4>{{house.shelter_name}}</h4>
+                                <h5>{{house.address}}</h5>
+                                <h5> Current predicted capacity:</h5><h5>{{house.capacity}}</h5>
+                            {% endfor %}
+                        </div>
                     </div> 
             </div>
         <!-- Footer-->
@@ -239,48 +186,6 @@
       }
     </style>
  
-     <script type="text/javascript">
-        // data from views.py
-        // var myDjangoList = (("{{all_shelters |safe}}").replace(/&(l|g|quo)t;/g, function(a,b){
-        //     return {
-        //         l   : '<',
-        //         g   : '>',
-        //         quo : '"'
-        //     }[b];
-        // }));
-
-        // myDjangoList = myDjangoList.replace(/u'/g, '\'')
-        // myDjangoList = myDjangoList.replace(/'/g, '\"')
-
-        // myData = JSON.parse( myDjangoList );
-        // console.log("my data ", myData)
-        
-        // console.log("name ", myData[0]['shelter_name'])
-        // for(var i = 0; i < myData.length; i++) {
-        //     console.log("stuff: ", myData[i]['shelter_name'])
-        //     console.log("capstuff: ", myData[i]['capacity'])
-        // }
-        const housings_test = '{{all_shelters|escapejs}}'
-        // housings_test = jQuery.parseJSON(housings_test)
-        console.log("housing ", housings_test);
-        ///console.log("sheltername ", housings_test[0].shelter_name)
-        // housings_test.forEach(([position, title], i) => {
-
-        // })
-        // for(var i = 0; i < housings_test.length; i++) {
-        //     console.log("housing shit " ,housings_test[i]);
-        // }
-        // for(house in housings_test){
-        //     console.log(house)
-        //     console.log("housing sheltername ", house.shelter_name);
-        // }
-        var google_api_key = "{{google_api_key|safe}}";
-        // let lat_0 = Number("{{lat_0}}");
-        // let lon_0 = Number("{{lon_0}}");
-        // for(house in "{{all_shelters}}"){
-            
-        // }
-    </script>
     <script >
       // Initialize and add the map
       function initMap() {
@@ -342,41 +247,6 @@
     </script>
   </head>
   <body>
-    <h3>MAP!!</h3>
-    <!--The div element for the map -->
-    <div id="map"></div>
-<h1>Housing Project</h1>
-
-<form action="{%  url  'index'  %}" method="POST">
-    {% csrf_token %}
-    <input type="checkbox" name="lgbtq2s_friendly" value="1">
-        <label for="lgbtq2s_friendly">LGBTQ2S+ friendly</label><br>
-
-    <input type="checkbox" name="wheelchair_accessible" value="1">
-        <label for="wheelchair_accessible">Wheelchair Accessible</label><br>
-
-    <input type="checkbox" name="public_transit_accessible" value="1">
-        <label for="public_transit_accessible">Public Transit accessible</label><br>
-
-    <input type="checkbox" name="women_only" value="1">
-        <label for="women_only">Women Only</label><br>
-
-    <input type="checkbox" name="food_provided" value="1">
-        <label for="food_provided">Food provided</label><br>
-
-    <input type="checkbox" name="showers_provided" value="1">
-        <label for="showers_provided">Showers provided</label><br>
-
-    <input type="submit" value="Submit">
-  </form>
-
-<div class="row">
-    {% for house in all_shelters %}
-        <h2>{{house.shelter_name}}</h2>
-        <h2>{{house.address}}</h2>
-        <h2>{{house.capacity}}</h2>
-    {% endfor %}
-</div>
     
     <!-- Async script executes immediately and must be after any DOM elements used in callback. -->
     <script
@@ -386,7 +256,7 @@
 
     <!--div element for location -->
     <div name="location">
-	<p>Location</p>
+	<p id="location">Location</p>
 	<button>Get Location</button>
     </div>
 
@@ -396,7 +266,7 @@
         // Get user location
 	const user_location = document.querySelector("location");
 	const btn = document.querySelector("button");
-	const name = document.querySelector("p");
+	const name = document.getElementById("location");
 
 	function get_user_location() {
 	    if (navigator.geolocation) {
@@ -408,26 +278,6 @@
 	function show_user_location(position) {
 	    name.innerHTML = "Latitude: " + position.coords.latitude + ", Longitude: " + position.coords.longitude;
 	}
-
-        /*
-	function send_location(position) {
-        $(."btn").click(function(){
-	    $.ajax({
-	        url: URL,
-		type: "POST",
-		data: {
-		   "latitude": position.coords.latitude,
-		   "longitude": position.coords.longitude
-	        },
-		success: function(result) {
-		    name.innerHTML = result;
-                },
-	        error: function(error) {
-	            name.innerHTML = error;
-	        }
-	    })
-	});
-	*/
 
         btn.addEventListener("click", get_user_location);
 
