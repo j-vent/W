@@ -47,7 +47,7 @@
         <section id="scroll">
             <div class="container" style="width: 1400px; height: 800px">
                 <div class="row" style ="vertical-align:middle; width: 1400px; height: 800px">
-                    <div class="col-sm-2" style="margin-top: 50px;">
+                    <div class="col-sm-2" style="margin-top: 80px; background-color: #f7dbff; height: 400px">
                         <br>
                         <!-- filters, https://www.w3schools.com/howto/howto_css_custom_checkbox.asp -->
                         <form action="{% url 'index' %}" method="post">
@@ -82,9 +82,9 @@
                                       
                                       </body>
                                 </div>
-                                <input type="checkbox" name="food_provided" value="1">
+                                <input type="checkbox" name="food_provided" value="1" style="background-color:#e89e7a";>
                                     <span class="checkmark"></span>
-                                    <label for="food_provided">food provided</label><br>
+                                    <label for="food_provided">food provided </label><br>
                             
                                 <input type="checkbox" name="lgbtq2s_friendly" value="1">
                                     <span class="checkmark"></span>
@@ -109,7 +109,7 @@
                                     <input type="text" name="lat_from_js" id="lat_from_js" hidden>
                                     <input type="text" name="long_from_js" id="long_from_js" hidden>
 
-                            <br><p><input type="submit" value="find shelters"></p> 
+                            <br><p><input type="submit" value="find shelters", style="background-color: #e89e7a;"></p> 
                         </form>
                     </div>
                         
@@ -141,10 +141,10 @@
                     </div>
                     <!--list of shelters-->
                      <!--list formatting: https://www.artlebedev.com/tools/technogrette/html/line_separated_list/-->
-                     <div class="col-md-4" style="margin-top: 60px; width: 300px; height: 450px; overflow-y: scroll;">
+                     <div class="col-md-4" style="margin-top: 60px; width: 250px; height: 450px; overflow-y: scroll;">
                         <br>
                         {% for house in all_shelters %}
-                        <div class="card" style="width: 250px; padding: 5px">
+                        <div class="card" style="width: 10rem; padding: 5px">
                             <div>
                                 <h5>{{house.shelter_name}}</h5>
                                 <p class="card-subtitle mb-2 text-muted">{{house.address}}</p>

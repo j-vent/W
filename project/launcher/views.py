@@ -19,8 +19,8 @@ def index(request):
 
     if (request.method == "POST"):
         # current location
-        orig_lat = request.POST.get("lat_from_js")
-        orig_lon = request.POST.get("long_from_js")
+        orig_lat = "53.55511"
+        orig_lon = "-113.48496"
         print("orig lat ", orig_lat)
         print("orig lon ", orig_lon)
 
