@@ -4,7 +4,6 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 import random
-from sklearn.preprocessing import PolynomialFeatures
 from sklearn.linear_model import LinearRegression
 
 class LinearRegressor:
@@ -63,6 +62,7 @@ def main():
     shelters_df = shelters_df.drop("Ratio",1)
     shelters_df["Rating"] = pd.Series(prediction[0])
     shelters_df = shelters_df.dropna()
+    shelters_df.sort_values(by=["Rating"],inplace=True,ascending=False)
     shelters_df.to_csv(new_csv,",")
 
     #model = LinearRegressor(X,Y,d)
