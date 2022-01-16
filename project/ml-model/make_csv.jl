@@ -17,7 +17,7 @@ function fix_dates(df)
 	# creates array of fixed dates (i.e int between 1-365)
 	col = [sum(dates[1:fixed.Month[i]-1])+fixed[i,2] for i in 1:length(fixed.Month)]
 
-	insertcols!(df,1,:FixedDate => col) 
+	insertcols!(df,1,:Day => col) 
 end
 
 #------------------------------------------------------|
@@ -71,13 +71,13 @@ fix_dates(shelters_copy);
 shelters_copy = transform(shelters_copy, [:Overnight,:Capacity] => (./) => :Ratio);
 
 # formatting the dataframe, removing columns that aren't used
-remove_col = [:Date,Symbol("Shelter Type"),:Shelter,:Year,:Month,:Organization,:City,:Capacity,:Overnight];
+remove_col = [:Date,Symbol("Shelter Type"),:Shelter,:Year,:Month,:Organization,:City,:Capacity,:Overnight,:Funded];
 select!(shelters_copy,Not(remove_col));
 
 # dataframe of shelter names + frequency
 shelter_names = combine(groupby(shelters_copy,"Shelter Name"), nrow  => :count);
 
 # writing dataframe to csv
-CSV.write("model_csv.csv",shelters_copy)
+CSV.write("fixed.csv",shelters_copy)
 
 #-----------------------------------------------------|
