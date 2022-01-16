@@ -153,20 +153,13 @@
                                 list-style-type: none;
                             }
                         </style>
-                        <ul class="line-separated">
-                            <li>Edwardson Place - Short Term Supportive</li>
-                            <li>Elizabeth House - Short Term Supportive</li>
-                            <li>Hope Mission - Herb Jamieson Centre</li>
-                            <li>Hope Mission - Herb Jamieson Winter Emergency</li>
-                            <li>Hope Mission - Intox Centre</li>
-                            <li>Hope Mission - Women WEmS</li>
-                            <li>Hope Mission - Youth</li>
-                            <li>McCauley Lodge - Short Term Supportive</li>
-                            <li>Salvation Army Addictions and Residential Centre - Short Term Supportive</li>
-                            <li>Sparling Lodge - Short Term Supportive</li>
-                            <li>Urban Manor - Short Term Supportive</li>
-                            <li>WEAC</li>
-                        </ul>
+                        <div class="row">
+                            {% for house in all_shelters %}
+                                <h4>{{house.shelter_name}}</h4>
+                                <h5>{{house.address}}</h5>
+                                <h5> Current predicted capacity:</h5><h5>{{house.capacity}}</h5>
+                            {% endfor %}
+                        </div>
                     </div> 
             </div>
         <!-- Footer-->
@@ -253,13 +246,7 @@
     </script>
   </head>
   <body>
-<div class="row">
-    {% for house in all_shelters %}
-        <h2>{{house.shelter_name}}</h2>
-        <h2>{{house.address}}</h2>
-        <h2>{{house.capacity}}</h2>
-    {% endfor %}
-</div>
+
     
     <!-- Async script executes immediately and must be after any DOM elements used in callback. -->
     <script
