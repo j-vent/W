@@ -192,6 +192,7 @@
     <script >
       // Initialize and add the map
       function initMap() {
+            
         // The location of center of YEG
         const centerYEG = { lat: 53.54733, lng: -113.48887};
         // The map, centered in YEG
@@ -227,7 +228,36 @@
         console.log("housings** ");
         console.log(housings);
 
+
         // Create the markers.
+
+        if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function(position) {
+            
+            var pos = {
+                lat: position.coords.latitude,
+                lng: position.coords.longitude
+            };
+            console.log("get curr pos", pos)
+            var marker = new google.maps.Marker({
+                position: pos,
+                map: map,
+                icon: "http://maps.google.com/mapfiles/ms/icons/blue-dot.png",
+                title: "You are here"
+            });
+            marker.addListener("click", () => {
+                infoWindow.close();
+                infoWindow.setContent(marker.getTitle());
+                infoWindow.open(marker.getMap(), marker);
+             });
+            map.setCenter(pos);
+        }, function() {
+            //handle location error (i.e. if user disallowed location access manually)
+        });
+        } else {
+        // Browser doesn't support Geolocation
+        }
+
         housings.forEach(([position, title], i) => {
             const marker = new google.maps.Marker({
                 position,
